@@ -1,63 +1,24 @@
+# Module1 Smart Contract
 
-// Mapping to keep track of whether an address has voted
-mapping(address => bool) public hasVoted;
+This smart contract, named `Module1`, features functions that demonstrate essential aspects of Solidity programming, focusing on age verification, safe division, and group size checking. It incorporates error-handling mechanisms to ensure secure and reliable contract execution.
 
-modifier onlyAdministrator() {
-    require(msg.sender == administrator, "Only the administrator can call this function");
-    _;
-}
+## Functions
 
-constructor() {
-    administrator = msg.sender;
-}
+### `verifyAdult`
 
-function vote() public {
-    // Basic input validation using require
-    require(msg.sender != address(0), "Invalid address");
-    require(!hasVoted[msg.sender], "You have already voted");
-    
-    // Additional checks, if needed, can be added here
-    
-    // Logic to verify age (18 or older)
-    if (!ageVerification()) {
-        revert("You must be 18 or older to vote");
-    }
+- Ensures that only individuals aged 18 or above are allowed to enter the club.
+- Uses the `require` statement to validate the age condition.
+- If the age is less than 18, the transaction is reverted with an informative error message.
 
-    // Logic to check group size
-    if (!checkGroupSize()) {
-        revert("Group size exceeded");
-    }
+### `safeDivision`
 
-    // Perform voting action
-    // (For simplicity, let's just increment the totalVotes counter)
-    totalVotes++;
-    
-    // Mark the sender as voted
-    hasVoted[msg.sender] = true;
-}
+- Performs a division operation between two integers, `numerator` and `denominator`.
+- Includes an `assert` statement to ensure that the denominator (`denominator`) is not zero.
+- If the denominator is zero, the contract execution will revert, preventing division by zero errors.
 
-function ageVerification() internal pure returns (bool) {
-    // Implement your logic to verify age here (18 or older)
-    // For simplicity, we assume everyone is eligible in this example.
-    return true;
-}
+### `checkGroupSize`
 
-function checkGroupSize() internal view returns (bool) {
-    // Implement your logic to check the group size here
-    // For simplicity, we assume that the totalVotes should not exceed the maxGroupSize.
-    
-    // Using assert to ensure maxGroupSize is greater than 0
-    assert(maxGroupSize > 0);
-
-    // Using require to check the group size limit
-    require(totalVotes < maxGroupSize, "Group size exceeded");
-
-    return true;
-}
-
-// Function to change the maximum group size, only callable by the administrator
-function setMaxGroupSize(uint newSize) public onlyAdministrator {
-    // Using require for input validation
-    require(newSize > 0, "Group size must be greater than 0");
-    maxGroupSize = newSize;
-}
+- Simulates the formation of groups with a specified number of members.
+- Enforces a maximum limit of 5 members per group.
+- Uses an `if` statement to check if the number of members exceeds 5.
+- If the condition is met, the transaction is reverted with a custom error message using the `revert` statement.
