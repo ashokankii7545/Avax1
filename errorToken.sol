@@ -1,24 +1,22 @@
-# Module1 Smart Contract
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-This smart contract, named `Module1`, features functions that demonstrate essential aspects of Solidity programming, focusing on age verification, safe division, and group size checking. It incorporates error-handling mechanisms to ensure secure and reliable contract execution.
+contract Module1 {
+    
+    function verifyAdult(uint age) public {
+        require(age >= 18, "Minimum Age should be 18");
+        // Ensure that the individual is an adult before allowing entry to the club.
+    }
 
-## Functions
+    function safeDivision(int numerator, int denominator) public pure returns (int) {
+        assert(denominator != 0);
+     // Ensure the denominator is not zero to avoid division by zero.
+        return numerator / denominator;
+    }
 
-### `verifyAdult`
-
-- Ensures that only individuals aged 18 or above are allowed to enter the club.
-- Uses the `require` statement to validate the age condition.
-- If the age is less than 18, the transaction is reverted with an informative error message.
-
-### `safeDivision`
-
-- Performs a division operation between two integers, `numerator` and `denominator`.
-- Includes an `assert` statement to ensure that the denominator (`denominator`) is not zero.
-- If the denominator is zero, the contract execution will revert, preventing division by zero errors.
-
-### `checkGroupSize`
-
-- Simulates the formation of groups with a specified number of members.
-- Enforces a maximum limit of 5 members per group.
-- Uses an `if` statement to check if the number of members exceeds 5.
-- If the condition is met, the transaction is reverted with a custom error message using the `revert` statement.
+    function checkGroupSize(uint members) public {
+        if (members > 5) {
+            revert("A group should not exceed 5 members");
+        }
+    }
+}
